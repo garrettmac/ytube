@@ -141,8 +141,8 @@ log(){
 
 
 
- async getYouTubePlayListItems(YouTubePlaylistId){
-  return this.YouTubeAPI(`playlistItems?part=snippet&maxResults=50&playlistId=${YouTubePlaylistId}`)
+ async getYouTubePlayListItems(YouTubePlaylistId,params=""){
+  return this.YouTubeAPI(`playlistItems?part=snippet&maxResults=50&playlistId=${YouTubePlaylistId}${params}`)
   //.map(p=>_.get(p,'snippet',[]))
   .then((o)=>_.get(o, 'data.items', []).map(p=>p.snippet))
   .then(data=>{
@@ -176,28 +176,28 @@ return data.map((i) => {
         });
 }
 
- async searchYouTubeChannel(q,count=1) {
+ async searchYouTubeChannel(q,count=1,params="") {
 //  async searchYouTubeForCompany(q,count=1) {
   try {
-    let response = await this.YouTubeAPI(`search?q=${q}&maxResults=${count}&part=snippet`);
+    let response = await this.YouTubeAPI(`search?q=${q}&maxResults=${count}&part=snippet${params}`);
     let responseFormatted = await format(response,true)
       responseFormatted = await format(responseFormatted,false,true)
       return responseFormatted
    } catch (e) {return Promise.reject(e);}
 }
 
- async getYouTubeChannelVideos(q,count=5) {
+ async getYouTubeChannelVideos(q,count=5,params="") {
 //  async searchYouTubeForCompany(q,count=1) {
   try {
-    let response = await this.YouTubeAPI(`channels?part=contentDetails&forUsername=${q}&maxResults=${count}`);
+    let response = await this.YouTubeAPI(`channels?part=contentDetails&forUsername=${q}&maxResults=${count}${params}`);
     let responseFormatted = await format(response,true)
       responseFormatted = await format(responseFormatted,false,true)
       return responseFormatted
    } catch (e) {return Promise.reject(e);}
 }
- async getChannelsLatestVideos(channelId,count=5){
+ async getChannelsLatestVideos(channelId,count=5,params=""){
    try {
-     let response = await this.YouTubeAPI(`search?order=date&part=snippet&channelId=${channelId}&maxResults=${count}`).then(x=>x.data).then((o)=>{
+     let response = await this.YouTubeAPI(`search?order=date&part=snippet&channelId=${channelId}&maxResults=${count}${params}`).then(x=>x.data).then((o)=>{
            let nextPageToken=o.nextPageToken
            let totalResults=o.pageInfo.totalResults
            let resultsPerPage=o.pageInfo.resultsPerPage
@@ -209,11 +209,11 @@ return data.map((i) => {
    } catch (e) {return Promise.reject(e);}
  }
 
- async getPlaylistVideos(playListId,count=5){
+ async getPlaylistVideos(playListId,count=5,params=""){
           try {
             // return this.YouTubeAPI(`playlistItems?part=snippet&maxResults=50&playlistId=${YouTubePlaylistId}`)
 
-            let response = await this.YouTubeAPI(`playlistItems?part=snippet&playlistId=${playListId}&maxResults=${count}`)
+            let response = await this.YouTubeAPI(`playlistItems?part=snippet&playlistId=${playListId}&maxResults=${count}${params}`)
             // console.log(" response: ",response);
             let responseFormatted = await format(response,true)
               responseFormatted = await format(responseFormatted,false,true)
@@ -222,17 +222,17 @@ return data.map((i) => {
 
 }
 
- async getChannelsPlayLists(channelId,count=5) {
+ async getChannelsPlayLists(channelId,count=5,params="") {
 //  async searchYouTubeForCompany(q,count=1) {
   try {
-    let response = await this.YouTubeAPI(`playlists?channelId=${channelId}&part=snippet,contentDetails&maxResults=${count}`);
+    let response = await this.YouTubeAPI(`playlists?channelId=${channelId}&part=snippet,contentDetails&maxResults=${count}${params}`);
     let responseFormatted = await format(response,true)
       responseFormatted = await format(responseFormatted,false,true)
       return responseFormatted
    } catch (e) {return Promise.reject(e);}
 }
  async getYouTubeVideoComments(VideoID){
- return this.YouTubeAPI(`commentThreads?&textFormat=plainText&part=snippet&maxResults=50&videoId=${VideoID}`)
+ return this.YouTubeAPI(`commentThreads?&textFormat=plainText&part=snippet&maxResults=50&videoId=${VideoID}${params}`)
           .then((o)=>_.get(o, 'data.items', []).map(p=>p.snippet))
 }
 
