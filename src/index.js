@@ -5,13 +5,19 @@ import _ from './lowbar';
 import YouTube from 'youtube-node';
 
 
-
-const format=(response,needHardFormat=false,getThumbnails=false) =>{
+/**
+* Formates JSON resoponce form youtube api
+* @method format
+* @param  {Bool} hardFormat - Response needs formatted for the first time
+* @param  {Bool} flattenThumbs - flattens thumbnails
+* @return {Obj}
+*/
+export const format=(response,hardFormat=false,flattenThumbs=false) =>{
    let results=response
-   if(needHardFormat==true)results=_.get(response, 'data', {kind:null})
+   if(hardFormat==true)results=_.get(response, 'data', {kind:null})
   //  console.log(" results.kind: ",results.kind);
-   if(results.kind==="youtube#channel")getThumbnails=true
-if(getThumbnails===true){
+   if(results.kind==="youtube#channel")flattenThumbs=true
+if(flattenThumbs===true){
    results.thumbnail= _.get(results, 'thumbnails.default.url')
    results.thumbnails={
      medium:_.get(results, 'thumbnails.medium.url'),
@@ -21,7 +27,6 @@ if(getThumbnails===true){
      maxres:_.get(results, 'thumbnails.maxres.url'),
    }
 }
-  //  console.log(" ______ results.kind: ",results.kind);
 
    if(results.kind==="youtube#searchListResponse"){
      let firstResult= _.get(response, 'data.items', [])[0]
@@ -165,22 +170,31 @@ return data.map((i) => {
     let responseFormatted = await format(response,true)
       responseFormatted = await format(responseFormatted,false,true)
       return responseFormatted
-  } catch(error) {
-    console.error(error);
-  }
+   } catch (e) {return Promise.reject(e);}
 }
 
- async getYouTubeChannelVideosr(q,count=5) {
+ async getYouTubeChannelVideos(q,count=5) {
 //  async searchYouTubeForCompany(q,count=1) {
   try {
     let response = await this.YouTubeAPI(`channels?part=contentDetails&forUsername=${q}&maxResults=${count}`);
     let responseFormatted = await format(response,true)
       responseFormatted = await format(responseFormatted,false,true)
       return responseFormatted
-  } catch(error) {
-    console.error(error);
-  }
+   } catch (e) {return Promise.reject(e);}
 }
+ async getChannelsLatestVideos(channelId,count=5){
+   try {
+     let response = await this.YouTubeAPI(`search?order=date&part=snippet&channelId=${channelId}&maxResults=${count}`).then(x=>x.data).then((o)=>{
+           let nextPageToken=o.nextPageToken
+           let totalResults=o.pageInfo.totalResults
+           let resultsPerPage=o.pageInfo.resultsPerPage
+           return {nextPageToken,totalResults,resultsPerPage,videos:o.items.map(o=>Object.assign({},o.id,o.snippet)).map(x=>thumbs(x))}
+        })
+
+
+   } catch (e) {return Promise.reject(e);}
+ }
+
  async getPlaylistVideos(playListId,count=5){
           try {
             // return this.YouTubeAPI(`playlistItems?part=snippet&maxResults=50&playlistId=${YouTubePlaylistId}`)
@@ -190,9 +204,8 @@ return data.map((i) => {
             let responseFormatted = await format(response,true)
               responseFormatted = await format(responseFormatted,false,true)
               return responseFormatted
-          } catch(error) {
-            console.error(error);
-          }
+           } catch (e) {return Promise.reject(e);}
+
 }
 
  async getChannelsPlayLists(channelId,count=5) {
@@ -202,9 +215,7 @@ return data.map((i) => {
     let responseFormatted = await format(response,true)
       responseFormatted = await format(responseFormatted,false,true)
       return responseFormatted
-  } catch(error) {
-    console.error(error);
-  }
+   } catch (e) {return Promise.reject(e);}
 }
  async getYouTubeVideoComments(VideoID){
  return this.YouTubeAPI(`commentThreads?&textFormat=plainText&part=snippet&maxResults=50&videoId=${VideoID}`)

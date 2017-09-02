@@ -2,11 +2,13 @@
 
 # ytube
 
-the easiest way to work with Youtube's API with beautify, easy to manage `json` responses
+the easiest way to work with Youtube's API with beautify formatted `json` responses built on top of <a href="https://www.npmjs.com/package/youtube-node">youtube-node</a> and <a href="https://www.npmjs.com/package/axios">axios</a>
+
+Give it a try using <a href="https://runkit.com">runkit</a>
 
 
-give it a try using <a href="https://runkit.com">runkit</a>
 ## Getting Started
+
 
 ## Installation
 
@@ -22,15 +24,66 @@ yarn add ytube #(or with npm)
 
 |Method|Params|Description|
 ------------------------|--------|----------------
-|fetchAllYouTube| `q`| combines the `searchYouTubeChannel`, `getChannelsPlayLists`, `getPlaylistVideos` methods to return one large object from a query |
-|getYouTubePlayListItems| `YouTubePlaylistId`|getYouTubePlayListItems|
-|getYouTubeById| `id`|getYouTubeById|
-|searchYouTubeChannel| `q` , `count` (default `1`)|searchYouTubeChannel|
-|getYouTubeChannelVideos| `q` , `count` (default `5`)|getYouTubeChannelVideosr|
+|fetchAllYouTube| `q`| combines the `search YouTube Channel`, `getChannelsPlayLists`, `getPlaylistVideos` methods to return one large object from a query |
+|YouTubeAPI| `route`| `axios` instance|
+|format| `data`,`hardFormat` (default `false`),`flattenThumbs` (default `false`) | formates the following <a href="https://developers.google.com/youtube/v3/getting-started#Sample_Partial_Requests">youtube kinds</a>: `youtube#channel`, `youtube#searchListResponse`, `youtube#channel`, `youtube#playlistListResponse`|
+|YouTubeNode| `N/A` |`youtube-node` instance|
+|getYouTubePlayListItems| `YouTubePlaylistId`|get YouTube PlayListItems|
+|getYouTubeById| `id`|get YouTube ById|
+|searchYouTubeChannel| `q` , `count` (default `1`)|search YouTube Channel|
+|getYouTubeChannelVideos| `q` , `count` (default `5`)|get YouTube Channel Videos|
 |getPlaylistVideos| `playListId` , `count` (default `5`|getPlaylistVideos|
+  |getChannelsLatestVideos| `channelId`| get channels latest videos|
 |getChannelsPlayLists| `channelId` , `count` (default `5`)|getChannelsPlayLists|
-|getYouTubeVideoComments| `VideoID`|getYouTubeVideoComments|
+|getYouTubeVideoComments| `VideoID`|get YouTube Video Comments|
+|YOUTUBE_API_KEY|  | Youtube api key|
 
+
+## Set up
+
+Getting API Key
+
+
+
+<a href="https://console.developers.google.com/apis/dashboard"><b>Google Dashboard</b></a>
+<p align="center">
+  <img alt="ytube" src="snapshot/enable.png" width="308"/>
+</p>
+
+
+<a href="https://console.developers.google.com/apis/library"><b>Google library</b></a>
+<p align="center">
+  <img alt="ytube" src="snapshot/library.png" width="308"/>
+</p>
+
+<a href="https://console.developers.google.com/apis/api/youtube.googleapis.com"><b>Youtube API</b></a>
+
+<p align="center">
+  <img alt="ytube" src="snapshot/api3.png" width="308"/>
+</p>
+
+<a href="https://console.developers.google.com/apis/credentials"><b>Google credentials</b></a>
+<p align="center">
+  <img alt="ytube" src="snapshot/creds.png" width="308"/>
+</p>
+
+
+ ###  axios instance
+
+`YouTubeAPI` method under the hood
+
+```js
+get YouTubeAPI(){
+  return axios.create({
+  baseURL:`https://www.googleapis.com/youtube/v3`,
+  responseType: "json",
+  timeout: 5000,
+  params:{
+    key:this.YOUTUBE_API_KEY
+  }
+})
+}
+```
 
 ### Basic Usage
 
@@ -453,5 +506,5 @@ ytube.fetchAllYouTube("MSNBC").then((value) => {
 
 
 # TODO
- - [] Write better docs
- - [] show more examples
+ - [ ] Write better docs
+ - [ ] show more examples
