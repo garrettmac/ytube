@@ -12,6 +12,19 @@ import YouTube from 'youtube-node';
 * @param  {Bool} flattenThumbs - flattens thumbnails
 * @return {Obj}
 */
+
+const thumbs=(o)=>{
+   o.thumbnail= _.get(o, 'thumbnails.default.url')
+   o.thumbnails={
+     medium:_.get(o, 'thumbnails.medium.url'),
+     high:_.get(o, 'thumbnails.high.url'),
+     standard:_.get(o, 'thumbnails.standard.url'),
+     medium:_.get(o, 'thumbnails.medium.url'),
+     maxres:_.get(o, 'thumbnails.maxres.url'),
+   }
+   return o
+}
+
 export const format=(response,hardFormat=false,flattenThumbs=false) =>{
    let results=response
    if(hardFormat==true)results=_.get(response, 'data', {kind:null})
