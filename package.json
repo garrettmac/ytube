@@ -1,0 +1,33 @@
+{
+  "name": "ytube",
+  "version": "1.0.0",
+  "description": "The Easiest NPM Package for YouTube",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garrettmac/ytube.git"
+  },
+  "keywords": [
+    "youtube",
+    "node",
+    "videos",
+    "youtube-data-api",
+    "json",
+    "best",
+    "easy",
+    "youtube",
+    "videos",
+    "youtube",
+    "playlists",
+    "channel"
+  ],
+  "author": "garrettmac <garrett@vyga.io> (http://vyga.io)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/garrettmac/ytube/issues"
+  },
+  "homepage": "https://github.com/garrettmac/ytube#readme"
+}
