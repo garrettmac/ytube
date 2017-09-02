@@ -203,6 +203,7 @@ return data.map((i) => {
            let resultsPerPage=o.pageInfo.resultsPerPage
            return {nextPageToken,totalResults,resultsPerPage,videos:o.items.map(o=>Object.assign({},o.id,o.snippet)).map(x=>thumbs(x))}
         })
+        return response
 
 
    } catch (e) {return Promise.reject(e);}
