@@ -201,11 +201,9 @@ return data.map((i) => {
            let nextPageToken=o.nextPageToken
            let totalResults=o.pageInfo.totalResults
            let resultsPerPage=o.pageInfo.resultsPerPage
-           return {nextPageToken,totalResults,resultsPerPage,videos:o.items.map(o=>Object.assign({},o.id,o.snippet)).map(x=>thumbs(x))}
+           return {nextPageToken,totalResults,resultsPerPage,latest:o.items.map(o=>Object.assign({},o.id,o.snippet)).map(x=>thumbs(x))}
         })
         return response
-
-
    } catch (e) {return Promise.reject(e);}
  }
 
