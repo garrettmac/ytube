@@ -1,6 +1,6 @@
 {
   "name": "ytube",
-  "version": "1.4.5",
+  "version": "1.5.5",
   "description": "The Easiest NPM Package for YouTube",
   "main": "lib/index.js",
   "scripts": {
