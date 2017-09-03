@@ -141,22 +141,22 @@ log(){
 
 
 
- async getYouTubePlayListItems(YouTubePlaylistId,params=""){
-  return this.YouTubeAPI(`playlistItems?part=snippet&maxResults=50&playlistId=${YouTubePlaylistId}${params}`)
-  //.map(p=>_.get(p,'snippet',[]))
-  .then((o)=>_.get(o, 'data.items', []).map(p=>p.snippet))
-  .then(data=>{
-return data.map((i) => {
-      i.videoId=i.resourceId.videoId
-      i.thumbnail= _.get(i, 'thumbnails.default.url')
-      let thumbnails=[]
-      _.keys(i.thumbnails).map((o,x) =>thumbnails[x]=i.thumbnails[o].url)
-      i.thumbnails=thumbnails
-      delete i.resourceId
-      return i
-    })
-}).catch(console.warn)
-}
+//  async getYouTubePlayListItems(YouTubePlaylistId,params=""){
+//   return this.YouTubeAPI(`playlistItems?part=snippet&maxResults=50&playlistId=${YouTubePlaylistId}${params}`)
+//   //.map(p=>_.get(p,'snippet',[]))
+//   .then((o)=>_.get(o, 'data.items', []).map(p=>p.snippet))
+//   .then(data=>{
+// return data.map((i) => {
+//       i.videoId=i.resourceId.videoId
+//       i.thumbnail= _.get(i, 'thumbnails.default.url')
+//       let thumbnails=[]
+//       _.keys(i.thumbnails).map((o,x) =>thumbnails[x]=i.thumbnails[o].url)
+//       i.thumbnails=thumbnails
+//       delete i.resourceId
+//       return i
+//     })
+// }).catch(console.warn)
+// }
 
 // channels?part=contentDetails&forUsername=OneDirectionVEVO
 
